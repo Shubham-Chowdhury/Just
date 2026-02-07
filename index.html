@@ -6,60 +6,64 @@
 <title>For You ❤️</title>
 
 <style>
-    body {
-        margin: 0;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: white;
-        overflow: hidden;
-        font-family: Arial, sans-serif;
-    }
+body {
+    margin: 0;
+    height: 100vh;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+}
 
-    /* BIG HEART */
-    #heart {
-        font-size: 25vw;
-        cursor: pointer;
-        z-index: 9999;
-        position: relative;
-        user-select: none;
-    }
+#heart {
+    font-size: 24vw;
+    cursor: pointer;
+    user-select: none;
+    z-index: 10;
+}
 
-    /* ROSE RAIN */
-    .rose {
-        position: fixed;
-        top: -10vh;
-        font-size: 28px;
-        animation: fall linear forwards;
-        pointer-events: none;
-    }
+.bouquet {
+    position: fixed;
+    top: -15vh;
+    font-size: 55px;
+    animation: fall linear forwards;
+    pointer-events: none;
+}
 
-    @keyframes fall {
-        to {
-            transform: translateY(110vh) rotate(360deg);
-        }
-    }
+.roseFinal {
+    position: fixed;
+    top: -10vh;
+    font-size: 38px;
+    animation: fall linear infinite;
+    pointer-events: none;
+    z-index: 6;
+}
 
-    /* FINAL SCREEN */
-    #finalScreen {
-        position: fixed;
-        inset: 0;
-        background: black;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        opacity: 0;
-        transition: opacity 2s ease;
-        z-index: 5;
-    }
+@keyframes fall {
+    to { transform: translateY(120vh) rotate(360deg); }
+}
 
-    #finalText {
-        font-size: 4vw;
-        background: linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
+#finalScreen {
+    position: fixed;
+    inset: 0;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 2s ease;
+    z-index: 5;
+}
+
+#finalText {
+    font-size: 4vw;
+    text-align: center;
+    background: linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
 </style>
 </head>
 <body>
@@ -67,42 +71,56 @@
 <div id="heart">❤️</div>
 
 <div id="finalScreen">
-    <div id="finalText">Happy Rose Day 🌹</div>
+    <div id="finalText">Happy Rose Day Deha 🌹</div>
 </div>
 
-<audio id="song" src="perfect.mp3"></audio>
+<audio id="song" src="perfect.mp3" preload="auto"></audio>
 
 <script>
 const heart = document.getElementById("heart");
 const finalScreen = document.getElementById("finalScreen");
 const song = document.getElementById("song");
 
+document.body.addEventListener("click", () => { song.load(); }, { once:true });
+
 heart.onclick = function() {
     heart.style.display = "none";
-    startRain();
-    song.play().catch(()=>{}); // safe play
+    song.play().catch(()=>{});
+    startBouquetRain();
 
     setTimeout(() => {
         finalScreen.style.opacity = "1";
+        startFinalRoseRain();
     }, 5000);
 };
 
-function startRain() {
-    let rain = setInterval(createRose, 100);
+function startBouquetRain() {
+    let rain = setInterval(createBouquet, 120);
     setTimeout(() => clearInterval(rain), 5000);
 }
 
-function createRose() {
-    const rose = document.createElement("div");
-    rose.className = "rose";
-    rose.innerHTML = "🌹";
-    rose.style.left = Math.random() * 100 + "vw";
-    rose.style.animationDuration = (Math.random()*2 + 3) + "s";
-    document.body.appendChild(rose);
-    setTimeout(() => rose.remove(), 5000);
+function createBouquet() {
+    const bouquet = document.createElement("div");
+    bouquet.className = "bouquet";
+    bouquet.innerHTML = "💐";
+    bouquet.style.left = Math.random() * 100 + "vw";
+    bouquet.style.animationDuration = (Math.random()*2 + 3) + "s";
+    document.body.appendChild(bouquet);
+    setTimeout(() => bouquet.remove(), 6000);
+}
+
+function startFinalRoseRain() {
+    setInterval(() => {
+        const rose = document.createElement("div");
+        rose.className = "roseFinal";
+        rose.innerHTML = "🌹";
+        rose.style.left = Math.random() * 100 + "vw";
+        rose.style.animationDuration = (Math.random()*2 + 3) + "s";
+        document.body.appendChild(rose);
+        setTimeout(() => rose.remove(), 6000);
+    }, 200);
 }
 </script>
 
 </body>
 </html>
-
